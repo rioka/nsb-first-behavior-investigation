@@ -34,13 +34,15 @@ internal class Program
       config.UseTransport(new LearningTransport());
       config.Pipeline.Register(typeof(NoOpOutBehavior), "No-op outgoing message behavior");
       config.Pipeline.Register(typeof(OtherNoOutOpBehavior), "Other no-op outgoing message behavior");
+      config.Pipeline.Register(typeof(RegisteredNoOpOutBehavior), "Registered no-op outgoing message behavior");
       config.Pipeline.Register(typeof(NoOpInBehavior), "No-op incoming message behavior");
 
       return config;
     });
 
     hb.ConfigureServices(services => {
-      
+
+      services.AddSingleton<RegisteredNoOpOutBehavior>();
       services.AddHostedService<Sender>();
     });
 
